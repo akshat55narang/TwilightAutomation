@@ -1,33 +1,44 @@
 package stepdefinitions;
 
-import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import dataprovider.WebdriverInjector;
+import objectrepository.AbstractPage;
+import objectrepository.LoginPage;
 
 public class StepDefinitionLogin {
+    private WebdriverInjector webdriverInjector;
+    private AbstractPage abstractPage;
+    private LoginPage loginPage;
 
-    @Given("^I am on the Home Page$")
-    public void onHomePage() throws Throwable {
-
+    public StepDefinitionLogin(WebdriverInjector injector) {
+        webdriverInjector = injector;
+        abstractPage = injector.getPageManager().getAbstractPage();
+        loginPage = injector.getPageManager().getLoginPage();
     }
 
     @When("^I click on the \"([^\"]*)\" button$")
-    public void clickOnButton(String arg1) {
-
+    public void clickOnButton(String buttonText) {
+        abstractPage.clickOnButtonWithText(buttonText);
     }
 
-    @Then("^I should be redirected to the Login Page$")
-    public void verifyLoginPage() {
+    @When("^I click on the \"([^\"]*)\" link$")
+    public void clickOnLink(String buttonText) {
+        abstractPage.clickOnLinkWithText(buttonText);
+    }
 
+    @Then("^I should be on the Login Page$")
+    public void verifyLoginPage() {
+        loginPage.verify();
     }
 
     @When("^I enter valid \"([^\"]*)\" and \"([^\"]*)\"$")
-    public void etnerCredentials(String arg1, String arg2) {
-
+    public void enterCredentials(String username, String password) {
+        loginPage.loginAttempt(username, password);
     }
 
     @Then("^I should \"([^\"]*)\" to login$")
-    public void verifySuccessfulLogin(String arg1) {
-
+    public void verifySuccessfulLogin(String condition) {
+        loginPage.verifyLoginSuccess();
     }
 }

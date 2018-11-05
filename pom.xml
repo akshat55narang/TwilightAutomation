@@ -136,11 +136,22 @@
             <version>3.0.0</version>
             <scope>test</scope>
         </dependency>
-        
+
         <dependency>
             <groupId>info.cukes</groupId>
             <artifactId>cucumber-junit</artifactId>
             <version>1.2.5</version>
+            <scope>compile</scope>
+        </dependency><dependency>
+        <groupId>io.github.bonigarcia</groupId>
+        <artifactId>webdrivermanager</artifactId>
+        <version>RELEASE</version>
+        <scope>compile</scope>
+    </dependency>
+        <dependency>
+            <groupId>io.github.bonigarcia</groupId>
+            <artifactId>webdrivermanager</artifactId>
+            <version>RELEASE</version>
             <scope>compile</scope>
         </dependency>
 

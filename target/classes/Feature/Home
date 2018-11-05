@@ -1,0 +1,4 @@
+Feature: Open Home page
+
+  Background:
+    Given I am on the Home Page
