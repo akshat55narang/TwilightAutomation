@@ -2,8 +2,8 @@ package stepdefinitions;
 
 import cucumber.api.java.en.Given;
 import dataprovider.WebdriverInjector;
-import objectrepository.AbstractPage;
-import objectrepository.HomePage;
+import objectrepository.pages.AbstractPage;
+import objectrepository.pages.HomePage;
 
 public class StepDefinitionHome {
     private WebdriverInjector webdriverInjector;

@@ -1,4 +1,4 @@
-package objectrepository;
+package objectrepository.pages;
 
 import org.junit.Assert;
 import org.openqa.selenium.By;
@@ -12,8 +12,8 @@ public class LoginPage extends AbstractPage {
         this.driver = driver;
     }
 
-    public void verify() {
-        Assert.assertTrue(getTitle().equals("Account Login"));
+    public void verify(String title) {
+        Assert.assertTrue(getTitle().contains(title));
     }
 
     public void loginAttempt(String username, String password) {
@@ -24,5 +24,9 @@ public class LoginPage extends AbstractPage {
 
     public void verifyLoginSuccess() {
         Assert.assertTrue(waitForElement(By.xpath("//a[text()='Edit Account']")).getText().equals("Edit Account"));
+    }
+
+    public void verifyInvalidCredentialsMessage(String message) {
+        Assert.assertTrue(waitForElement(By.xpath("//div[@class='alert alert-danger alert-dismissible']")).getText().equals(message));
     }
 }

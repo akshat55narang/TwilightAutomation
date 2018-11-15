@@ -3,8 +3,8 @@ package stepdefinitions;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import dataprovider.WebdriverInjector;
-import objectrepository.AbstractPage;
-import objectrepository.LoginPage;
+import objectrepository.pages.AbstractPage;
+import objectrepository.pages.LoginPage;
 
 public class StepDefinitionLogin {
     private WebdriverInjector webdriverInjector;
@@ -27,9 +27,9 @@ public class StepDefinitionLogin {
         abstractPage.clickOnLinkWithText(buttonText);
     }
 
-    @Then("^I should be on the Login Page$")
-    public void verifyLoginPage() {
-        loginPage.verify();
+    @Then("^I should be on the \"([^\"]*)\" Page$")
+    public void verifyLoginPage(String module) {
+        loginPage.verify(module);
     }
 
     @When("^I enter valid \"([^\"]*)\" and \"([^\"]*)\"$")
@@ -37,8 +37,18 @@ public class StepDefinitionLogin {
         loginPage.loginAttempt(username, password);
     }
 
-    @Then("^I should \"([^\"]*)\" to login$")
-    public void verifySuccessfulLogin(String condition) {
+    @When("^I enter invalid \"([^\"]*)\" or \"([^\"]*)\"$")
+    public void enterInValidCredentials(String username, String password) {
+        loginPage.loginAttempt(username, password);
+    }
+
+    @Then("^I should be able to login$")
+    public void doLoginWithValidCredentials() {
         loginPage.verifyLoginSuccess();
+    }
+
+    @Then("^I should be able to see the message \"([^\"]*)\"$")
+    public void verifyInValidCredentailsMessage(String message) {
+        loginPage.verifyInvalidCredentialsMessage(message);
     }
 }

@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
         ,glue = "stepdefinitions"
         ,monochrome = true
         ,plugin = { "pretty" }
+        //,tags = "@reg"
         //,dryRun = true
 )
 public class TestRunner {
