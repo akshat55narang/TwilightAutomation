@@ -1,15 +1,18 @@
 package objectrepository.rest;
 
+import dataprovider.ApiResource;
 import io.restassured.RestAssured;
+import io.restassured.http.Headers;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSender;
 import io.restassured.specification.RequestSpecification;
 import manager.ConfigFileManager;
 
+import java.util.List;
+
 public class AbstractService {
     private String baseURI;
-    public static final String AUTH_API = ConfigFileManager.getInstance().getConfigFileReader().getAuthApi();
 
     public AbstractService(String baseURI) {
         this.baseURI = baseURI;
@@ -24,8 +27,8 @@ public class AbstractService {
         return RestAssured.when();
     }
 
-    public Response get(String resource) {
-        return RestAssured.get(resource);
+    public Response get(RequestSpecification request, String resource) {
+        return request.get(resource);
     }
 
     public Response post(RequestSpecification request, String resource) {
@@ -37,18 +40,39 @@ public class AbstractService {
         return jsonPath;
     }
 
+    public RequestSpecification createBasicRequestWithCookies() {
+        RequestSpecification request = createBasicRequest();
+        List<String> cookies = getDefaultUserSessionContext();
+        cookies.forEach(cookie -> {
+            request.header("Cookie",cookie);
+        });
+        return request;
+    }
+
+    public RequestSpecification createBasicRequest() {
+        RequestSpecification request = given();
+        request.header("Content-Type", "application/json");
+        return request;
+    }
+
     public String getSessionCookie(String username, String password) {
         Response response = doLogin(username, password);
         JsonPath jsonPath = rawToJson(response);
         return jsonPath.getString("session.value");
     }
 
-    public String getDefaultUserSessionCookie() {
+    public List<String> getSessionContext(String username, String password) {
+        Response response = doLogin(username, password);
+        Headers headers = response.getHeaders();
+        return headers.getValues("Set-Cookie");
+    }
+
+    public List<String> getDefaultUserSessionContext() {
         String username = ConfigFileManager.getInstance().getConfigFileReader().getDefaultUser();
         String password = ConfigFileManager.getInstance().getConfigFileReader().getDefaultPassword();
         Response response = doLogin(username, password);
-        JsonPath jsonPath = rawToJson(response);
-        return jsonPath.getString("session.value");
+        Headers headers = response.getHeaders();
+        return headers.getValues("Set-Cookie");
     }
 
     public int getLoginStatusCode(String username, String password) {
@@ -60,7 +84,7 @@ public class AbstractService {
         RequestSpecification request = given();
         request.header("Content-Type", "application/json");
         request.body("{ \"username\": \"" + username + "\", \"password\": \""+ password + "\" }");
-        Response response = post(request,AUTH_API);
+        Response response = post(request, ApiResource.AUTH_API);
         return response;
     }
 

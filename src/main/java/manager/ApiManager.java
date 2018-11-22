@@ -3,6 +3,7 @@ package manager;
 import io.restassured.RestAssured;
 import objectrepository.rest.AbstractService;
 import objectrepository.rest.LoginService;
+import objectrepository.rest.ProjectService;
 import objectrepository.rest.UserService;
 
 public class ApiManager {
@@ -11,6 +12,7 @@ public class ApiManager {
     private AbstractService abstractService;
     private LoginService loginService;
     private UserService userService;
+    private ProjectService projectService;
 
     public ApiManager() {
         restAssured.baseURI = BASE_URI;
@@ -26,5 +28,9 @@ public class ApiManager {
 
     public UserService getUserService() {
         return (userService == null) ? userService = new UserService(restAssured.baseURI) : userService;
+    }
+
+    public ProjectService getProjectService() {
+        return (projectService == null) ? projectService = new ProjectService(restAssured.baseURI) : projectService;
     }
 }

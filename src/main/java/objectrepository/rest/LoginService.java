@@ -18,6 +18,7 @@ public class LoginService extends AbstractService {
 
     public void loginWithInvalidCredentials(String username, String password) {
         int statusCode = getLoginStatusCode(username, password);
+        System.out.println("Status Code Received = " + statusCode);
         Assert.assertTrue(statusCode == 401);
     }
 }

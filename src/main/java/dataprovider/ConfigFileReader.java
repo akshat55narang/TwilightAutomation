@@ -69,6 +69,14 @@ public class ConfigFileReader {
         throw new RuntimeException("User API is null !");
     }
 
+    public String getProjectApi() {
+        String projectApi = properties.getProperty("project_api");
+        if (projectApi != null) {
+            return projectApi;
+        }
+        throw new RuntimeException("Project API is null !");
+    }
+
     public String getDefaultUser() {
         String username = properties.getProperty("default_username");
         if (username != null) {
