@@ -15,7 +15,7 @@ public class APIStepDefinitionProject {
 
     @Given("^a project with name \"([^\"]*)\" doesnot exist$")
     public void removeProjectWithName(String projectName) {
-        projectService.getExistingProjects();
+        //projectService.getExistingProjects();
     }
 
     @Given("^api call to create a new project with name \"([^\"]*)\" should be successful$")

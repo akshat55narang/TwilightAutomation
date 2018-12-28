@@ -10,7 +10,6 @@ public class ConfigFileReader {
     public ConfigFileReader() {
         File propertiesFile = new File(propertiesPath);
         String path = propertiesFile.getAbsolutePath();
-        System.out.println(path);
         try (BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(path))) {
             properties = new Properties();
             properties.load(inputStream);
@@ -38,6 +37,14 @@ public class ConfigFileReader {
     }
 
     public Long getExplicitWait() {
+        String explicitWait = properties.getProperty("explicit_wait");
+        if (explicitWait != null) {
+            return Long.parseLong(explicitWait);
+        }
+        throw new RuntimeException(explicitWait + " is Null !");
+    }
+
+    public Long getStaticTimeOut() {
         String timeOut = properties.getProperty("timeout");
         if (timeOut != null) {
             return Long.parseLong(timeOut);
