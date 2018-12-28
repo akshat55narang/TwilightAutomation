@@ -1,6 +1,7 @@
 package objectrepository.rest;
 
 import dataprovider.ApiResource;
+import dataprovider.PropertyInput;
 import io.restassured.RestAssured;
 import io.restassured.http.Headers;
 import io.restassured.path.json.JsonPath;
@@ -44,7 +45,7 @@ public class AbstractService {
         RequestSpecification request = createBasicRequest();
         List<String> cookies = getDefaultUserSessionContext();
         cookies.forEach(cookie -> {
-            request.header("Cookie",cookie);
+            request.header("Cookie", cookie);
         });
         return request;
     }
@@ -68,22 +69,22 @@ public class AbstractService {
     }
 
     public List<String> getDefaultUserSessionContext() {
-        String username = ConfigFileManager.getInstance().getConfigFileReader().getDefaultUser();
-        String password = ConfigFileManager.getInstance().getConfigFileReader().getDefaultPassword();
+        String username = ConfigFileManager.getInstance().getConfigFileReader().getProperty(PropertyInput.DEFAULT_USERNAME.getProperty());
+        String password = ConfigFileManager.getInstance().getConfigFileReader().getProperty(PropertyInput.DEFAULT_PASSWORD.getProperty());
         Response response = doLogin(username, password);
         Headers headers = response.getHeaders();
         return headers.getValues("Set-Cookie");
     }
 
     public int getLoginStatusCode(String username, String password) {
-       Response response = doLogin(username, password);
-       return response.getStatusCode();
+        Response response = doLogin(username, password);
+        return response.getStatusCode();
     }
 
     public Response doLogin(String username, String password) {
         RequestSpecification request = given();
         request.header("Content-Type", "application/json");
-        request.body("{ \"username\": \"" + username + "\", \"password\": \""+ password + "\" }");
+        request.body("{ \"username\": \"" + username + "\", \"password\": \"" + password + "\" }");
         Response response = post(request, ApiResource.AUTH_API);
         return response;
     }

@@ -1,5 +1,6 @@
 package manager;
 
+import dataprovider.PropertyInput;
 import io.restassured.RestAssured;
 import objectrepository.rest.AbstractService;
 import objectrepository.rest.LoginService;
@@ -7,7 +8,8 @@ import objectrepository.rest.ProjectService;
 import objectrepository.rest.UserService;
 
 public class ApiManager {
-    private static final String BASE_URI = ConfigFileManager.getInstance().getConfigFileReader().getBaseUri();
+    private static final String BASE_URI = ConfigFileManager.getInstance().getConfigFileReader()
+            .getProperty(PropertyInput.BASEURI.getProperty());
     private RestAssured restAssured;
     private AbstractService abstractService;
     private LoginService loginService;

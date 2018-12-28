@@ -1,6 +1,7 @@
 package manager;
 
 import dataprovider.ConfigFileReader;
+import dataprovider.PropertyInput;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -17,8 +18,8 @@ public class DriverManager {
     }
 
     private WebDriver createDriver() {
-        String browser = fileReader.getBrowser();
-        String appUrl = fileReader.getApplicationUrl();
+        String browser = fileReader.getProperty(PropertyInput.BROWSER.getProperty());
+        String appUrl = fileReader.getProperty(PropertyInput.URL.getProperty());
         if (browser.equals("chrome")) {
             driver = new ChromeDriver();
         } else if (browser.equals("firefox")) {

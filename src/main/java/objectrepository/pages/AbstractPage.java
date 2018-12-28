@@ -1,5 +1,6 @@
 package objectrepository.pages;
 
+import dataprovider.PropertyInput;
 import manager.ConfigFileManager;
 import org.junit.Assert;
 import org.openqa.selenium.By;
@@ -20,8 +21,8 @@ public class AbstractPage extends FluentWait {
     public AbstractPage(WebDriver driver) {
         super(driver);
         this.driver = driver;
-        wait = new WebDriverWait(driver, ConfigFileManager.getInstance().getConfigFileReader().getExplicitWait())
-                .ignoring(StaleElementReferenceException.class);
+        wait = new WebDriverWait(driver, ConfigFileManager.getInstance().getConfigFileReader().getLongProperty(
+                PropertyInput.EXPLICIT_WAIT.getProperty())).ignoring(StaleElementReferenceException.class);
     }
 
     public Duration timeoutInSeconds(Long timeout) {
