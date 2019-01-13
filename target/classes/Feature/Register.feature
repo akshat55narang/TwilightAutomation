@@ -1,6 +1,7 @@
 Feature: Register a new user
 
   Background:
+    Given I am on the Home Page
     When I click on the "My Account" button
     And I click on the "Register" link
     Then I should be on the "Register" Page

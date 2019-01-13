@@ -7,12 +7,15 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.Arrays;
 import java.util.Set;
+import java.util.function.Consumer;
 
 public class AbstractPage extends FluentWait {
     private WebDriver driver;
@@ -89,5 +92,36 @@ public class AbstractPage extends FluentWait {
         waitForElementToBeClickable(By.xpath("//a[text()='" + text + "']")).click();
     }
 
+    public Actions actions() {
+        return new Actions(driver);
+    }
 
+    /**
+     * hover on an element. Should be invoked by other methods to perform action on a single or multiple elements
+     */
+
+    public Actions moveToElement(WebElement element) {
+        return actions().moveToElement(element);
+    }
+
+    public void moveToElementAndClick(WebElement element) {
+        moveToElement(element).click().build().perform();
+    }
+
+    public void moveToElement(Actions actions, WebElement element) {
+        actions.moveToElement(element);
+    }
+
+    public void moveToSequenceOfElementsAndClick(WebElement ...elements) {
+        Actions actions = actions();
+        Arrays.asList(elements).forEach(element -> {
+            moveToElement(actions, element);
+        });
+        buildAndPerformActions(actions.click());
+    }
+
+    private void buildAndPerformActions(Actions actions) {
+        Consumer<Actions> actionsConsumer = action -> action.build().perform();
+        actionsConsumer.accept(actions);
+    }
 }

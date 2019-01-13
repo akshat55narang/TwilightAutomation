@@ -10,7 +10,7 @@ import org.junit.runner.RunWith;
         ,glue = "stepdefinitions"
         ,monochrome = true
         ,plugin = { "pretty" }
-        ,tags = "@reg"
+        ,tags = "@e2e"
         //,dryRun = true
 )
 public class TestRunner {

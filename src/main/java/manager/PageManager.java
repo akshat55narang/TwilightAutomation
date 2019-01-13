@@ -1,9 +1,6 @@
 package manager;
 
-import objectrepository.pages.AbstractPage;
-import objectrepository.pages.HomePage;
-import objectrepository.pages.LoginPage;
-import objectrepository.pages.RegisterPage;
+import objectrepository.pages.*;
 import org.openqa.selenium.WebDriver;
 
 public class PageManager {
@@ -12,6 +9,7 @@ public class PageManager {
     private HomePage homePage;
     private LoginPage loginPage;
     private RegisterPage registerPage;
+    private DesktopPage desktopPage;
 
     public PageManager(WebDriver driver) {
         this.driver = driver;
@@ -31,6 +29,10 @@ public class PageManager {
 
     public RegisterPage getRegisterPage() {
         return (registerPage == null) ? registerPage = new RegisterPage(driver) : registerPage;
+    }
+
+    public DesktopPage getDesktopPage() {
+        return (desktopPage == null) ? desktopPage = new DesktopPage(driver) : desktopPage;
     }
 
 }

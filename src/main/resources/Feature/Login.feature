@@ -1,6 +1,7 @@
 Feature: Login to application with valid users
 
   Background:
+    Given I am on the Home Page
     When I click on the "My Account" button
     And I click on the "Login" link
     Then I should be on the "Login" Page
